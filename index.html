@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>صورة برو | مستنداتك الذكية في مكان واحد</title>
+  <meta name="description" content="حوّل صور الملازم والكشوف الورقية إلى ملفات PDF قابلة للطباعة — مجاناً 100% وبدون رفع على سيرفر." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+
+  <!-- ===== Navbar ===== -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="logo">
+        <span class="logo-icon">📄</span>
+        <span>صورة <b>برو</b></span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#tools">الأدوات</a>
+        <a href="#features">المميزات</a>
+        <a href="#how">كيف يعمل</a>
+        <a href="#community">المجتمع</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="تبديل المظهر">🌙</button>
+        <a href="#tools" class="btn btn-primary btn-sm">ابدأ مجاناً</a>
+        <button class="burger" id="burger" aria-label="القائمة">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-inner">
+      <div class="badge">🇪🇬 مجاني 100% — مخصص للمنهج والورق المصري</div>
+      <h1>مستنداتك الذكية<br /><span class="grad-text">في مكان واحد</span></h1>
+      <p class="hero-sub">
+        ارفع صور الملازم، دفاتر التحضير، أو الكشوف الورقية وحوّلها لملفات
+        PDF قابلة للطباعة والتعديل فوراً — كل المعالجة تتم على جهازك، خصوصيتك محفوظة.
+      </p>
+      <div class="hero-cta">
+        <a href="#tool-pdf" class="btn btn-primary btn-lg">🚀 حوّل صورك إلى PDF</a>
+        <a href="#how" class="btn btn-ghost btn-lg">شوف إزاي بيشتغل</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b data-count="12500">0</b><span>ملف تمت معالجته</span></div>
+        <div class="stat"><b data-count="4200">0</b><span>طالب ومعلم</span></div>
+        <div class="stat"><b data-count="100">0</b><span>% مجاني</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Tools ===== -->
+  <section class="section" id="tools">
+    <div class="container">
+      <h2 class="section-title">ماذا تريد أن تفعل اليوم؟</h2>
+      <p class="section-sub">أدوات ذكية متخصصة — بدون تسجيل، بدون سيرفر، بدون حدود</p>
+
+      <div class="tools-tabs">
+        <button class="tab active" data-tool="pdf">📑 صور → PDF</button>
+        <button class="tab" data-tool="enhance">✨ تحسين الصور</button>
+        <button class="tab" data-tool="compress">🗜️ ضغط الصور</button>
+      </div>
+
+      <!-- Tool: Images to PDF -->
+      <div class="tool-panel active" id="tool-pdf">
+        <div class="tool-card">
+          <h3>تحويل الصور إلى ملف PDF</h3>
+          <p class="tool-desc">اختار صور الملزمة أو الكشف بالترتيب، وهنجهزلك ملف PDF جاهز للطباعة بمقاس A4.</p>
+          <label class="dropzone" id="pdfDrop">
+            <input type="file" id="pdfInput" accept="image/*" multiple hidden />
+            <span class="drop-icon">📂</span>
+            <span>اسحب الصور هنا أو <b>اضغط للاختيار</b></span>
+            <small>JPG / PNG / WebP — حتى 30 صورة</small>
+          </label>
+          <div class="thumbs" id="pdfThumbs"></div>
+          <div class="tool-actions">
+            <button class="btn btn-primary" id="makePdf" disabled>⬇️ إنشاء ملف PDF</button>
+            <button class="btn btn-ghost" id="clearPdf">مسح الكل</button>
+          </div>
+          <div class="progress" id="pdfProgress"><div class="bar"></div></div>
+        </div>
+      </div>
+
+      <!-- Tool: Enhance -->
+      <div class="tool-panel" id="tool-enhance">
+        <div class="tool-card">
+          <h3>تحسين صورة مستند</h3>
+          <p class="tool-desc">حسّن وضوح صور الأوراق المصورة بالموبايل: إضاءة، تباين، وتحويل لأبيض وأسود للطباعة.</p>
+          <label class="dropzone" id="enhDrop">
+            <input type="file" id="enhInput" accept="image/*" hidden />
+            <span class="drop-icon">🖼️</span>
+            <span>اختار صورة للتحسين</span>
+          </label>
+          <div class="enhance-editor" id="enhEditor" hidden>
+            <div class="canvas-wrap"><canvas id="enhCanvas"></canvas></div>
+            <div class="sliders">
+              <label>الإضاءة <input type="range" id="brightness" min="50" max="180" value="110" /></label>
+              <label>التباين <input type="range" id="contrast" min="50" max="220" value="130" /></label>
+              <label class="check"><input type="checkbox" id="grayscale" checked /> أبيض وأسود (مثالي للطباعة)</label>
+              <div class="tool-actions">
+                <button class="btn btn-primary" id="downloadEnh">⬇️ تحميل الصورة المحسّنة</button>
+                <button class="btn btn-ghost" id="resetEnh">إعادة ضبط</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool: Compress -->
+      <div class="tool-panel" id="tool-compress">
+        <div class="tool-card">
+          <h3>ضغط الصور</h3>
+          <p class="tool-desc">قلّل حجم صور الملازم قبل المشاركة على واتساب أو تليجرام مع الحفاظ على الجودة.</p>
+          <label class="dropzone" id="cmpDrop">
+            <input type="file" id="cmpInput" accept="image/*" hidden />
+            <span class="drop-icon">🗜️</span>
+            <span>اختار صورة للضغط</span>
+          </label>
+          <div class="compress-editor" id="cmpEditor" hidden>
+            <label>مستوى الجودة <input type="range" id="quality" min="20" max="95" value="70" /> <b id="qualityVal">70%</b></label>
+            <div class="cmp-result" id="cmpResult"></div>
+            <div class="tool-actions">
+              <button class="btn btn-primary" id="downloadCmp">⬇️ تحميل الصورة المضغوطة</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Features ===== -->
+  <section class="section section-alt" id="features">
+    <div class="container">
+      <h2 class="section-title">ليه صورة برو؟</h2>
+      <div class="features-grid">
+        <div class="feature"><span>🔒</span><h4>خصوصية كاملة</h4><p>كل المعالجة على جهازك — صورك لا تغادر متصفحك أبداً.</p></div>
+        <div class="feature"><span>⚡</span><h4>سرعة فائقة</h4><p>بدون رفع أو انتظار — النتيجة جاهزة في ثوانٍ معدودة.</p></div>
+        <div class="feature"><span>💸</span><h4>مجاني للأبد</h4><p>بدون اشتراكات، بدون حدود يومية، بدون علامة مائية.</p></div>
+        <div class="feature"><span>📱</span><h4>يعمل على الموبايل</h4><p>صوّر الورق بكاميرا الموبايل وحوّله PDF مباشرة.</p></div>
+        <div class="feature"><span>🖨️</span><h4>جاهز للطباعة</h4><p>مقاس A4 مضبوط تلقائياً مع تحسين الأبيض والأسود.</p></div>
+        <div class="feature"><span>🌙</span><h4>وضع ليلي</h4><p>مريح لعينيك أثناء المذاكرة بالليل.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== How it works ===== -->
+  <section class="section" id="how">
+    <div class="container">
+      <h2 class="section-title">كيف يعمل؟</h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><h4>📸 صوّر أو ارفع</h4><p>صوّر الملزمة بالموبايل أو ارفع الصور من جهازك.</p></div>
+        <div class="step-arrow">←</div>
+        <div class="step"><div class="step-num">2</div><h4>✨ حسّن ورتّب</h4><p>حسّن الوضوح ورتّب الصفحات كما تريد.</p></div>
+        <div class="step-arrow">←</div>
+        <div class="step"><div class="step-num">3</div><h4>📄 حمّل PDF</h4><p>ملف واحد مرتب جاهز للطباعة أو المشاركة.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Community ===== -->
+  <section class="section section-alt" id="community">
+    <div class="container community-inner">
+      <h2 class="section-title">مجتمع صورة التعليمي 🇪🇬</h2>
+      <p class="section-sub">تابع أحدث الملازم، الامتحانات، والتحديثات أولاً بأول</p>
+      <div class="community-btns">
+        <a href="#" class="btn btn-whatsapp">💬 قناة الواتساب</a>
+        <a href="#" class="btn btn-facebook">👥 جروب الفيسبوك</a>
+        <a href="#" class="btn btn-telegram">✈️ قناة التليجرام</a>
+      </div>
+      <p class="hint">⚠️ ضع روابط قنواتك هنا من ملف index.html</p>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="logo"><span class="logo-icon">📄</span> صورة <b>برو</b></div>
+      <p>صُنع بحب للطالب والمعلم المصري 🇪🇬 — مجاني 100% للأبد</p>
+      <small>© <span id="year"></span> صورة برو — جميع الحقوق محفوظة</small>
+    </div>
+  </footer>
+
+</body>
+</html>
